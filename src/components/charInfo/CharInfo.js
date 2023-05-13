@@ -5,6 +5,7 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 import useMarvelService from '../../services/MarvelService';
+import { Link } from 'react-router-dom';
 
 import './charInfo.scss';
 
@@ -49,7 +50,9 @@ const CharInfo = (props) => {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
-  let imgStyle = thumbnail.indexOf('image_not_available') > -1 ? { 'objectFit': 'contain' } : { 'objectFit': 'cover' };
+  const imgStyle = thumbnail.indexOf('image_not_available') > -1 ? { 'objectFit': 'contain' } : { 'objectFit': 'cover' };
+
+  const getComicIdFromQueryString = (queryString) => queryString.split('/').reverse()[0];
 
   return (
     <>
@@ -77,7 +80,9 @@ const View = ({ char }) => {
           comics.map((item, i) => {
             return (
               <li key={i} className="char__comics-item">
-                {item.name}
+                <Link to={`/comics/${getComicIdFromQueryString(item.resourceURI)}`}>
+                  {item.name}
+                </Link>
               </li>
             );
           })
