@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 
 import './charList.scss';
@@ -50,25 +51,27 @@ const CharList = (props) => {
       const imgStyle = char.thumbnail.indexOf('image_not_available') > -1 ? { 'objectFit': 'contain' } : { 'objectFit': 'cover' };
 
       return (
-        <li
-          className="char__item"
-          key={char.id}
-          tabIndex="0"
-          ref={el => itemRefs.current[i] = el}
-          onFocus={() => {
-            props.onCharSelected(char.id);
-            onItemFocus(i);
-          }
-          }>
-          <img src={char.thumbnail} style={imgStyle} alt="hero" />
-          <div className="char__name">{char.name}</div>
-        </li>
+        <CSSTransition key={char.id} timeout={500} classNames="char__item">
+          <li
+            className="char__item"
+            tabIndex="0"
+            ref={el => itemRefs.current[i] = el}
+            onFocus={() => {
+              props.onCharSelected(char.id);
+              onItemFocus(i);
+            }}>
+            <img src={char.thumbnail} style={imgStyle} alt="hero" />
+            <div className="char__name">{char.name}</div>
+          </li>
+        </CSSTransition>
       );
     });
 
     return (
       <ul className="char__grid">
-        {items}
+        <TransitionGroup component={null}>
+          {items}
+        </TransitionGroup>
       </ul>
     );
   }
