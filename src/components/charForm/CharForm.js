@@ -43,9 +43,19 @@ const CharForm = () => {
   // X - TODO: fix rerenders amount per query
   // TODO: error handling
   // TODO: integrate form messages into char state (work with id)
-  // console.log(errors);
+  // TODO: Generate hero description page (mb same with prev one)
+  
+  console.log(errors, error);
 
-  console.log('render');
+
+  // TODO: нужен один источник правды
+
+  const formValidationErrorsMsg = (Object.keys(errors).length && !error) ? <p>{errors.charName?.message}</p> : null;
+  const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p>The character was not found. Check the name and try again</p> : null;
+  // const successSearchMsg = (!formValidationErrorsMsg && !fetchErrorMsg) ? <p>There is! Visit {char} page?</p> : null;
+
+  console.log('errors:', formValidationErrorsMsg, fetchErrorMsg);
+  
   return (
     <div className="char-form">
       <div className="char-form__title">Or find a character by name:</div>
@@ -63,8 +73,9 @@ const CharForm = () => {
           <div className="inner">FIND</div>
         </button>
       </form>
-
-      <p>{errors.charName?.message}</p>
+      {/* {successSearchMsg} */}
+      {formValidationErrorsMsg}
+      {fetchErrorMsg}
     </div>
   );
 }

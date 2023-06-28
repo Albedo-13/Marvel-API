@@ -1,7 +1,7 @@
 import { useHttp } from '../hooks/http.hook';
 
 const useMarvelService = () => {
-  const { loading, request, error, clearError } = useHttp();
+  const { loading, request, error, setError, clearError } = useHttp();
 
   const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
   const _apiKey = 'apikey=44039d56cf17118765d33ccf69718672';
@@ -21,6 +21,11 @@ const useMarvelService = () => {
 
   const getCharacterByName = async (charName) => {
     const res = await request(`${_apiBase}characters?name=${charName}&${_apiKey}`);
+    if (!res.data.results.length) {
+      // console.log(`No valid results by fetching ${_apiBase}characters?name=${charName}&${_apiKey}`)
+      setError(`No valid results by fetching ${_apiBase}characters?name=${charName}&${_apiKey}`);
+      return;
+    }
     return _transformCharacter(res.data.results[0]);
   }
 
