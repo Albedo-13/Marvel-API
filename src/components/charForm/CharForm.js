@@ -1,9 +1,19 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import './charForm.scss';
 import '../../style/button.scss';
+import useMarvelService from '../../services/MarvelService';
+import { useState } from 'react';
 
 const CharForm = () => {
+  const [char, setChar] = useState(null);
+
+  const {
+    loading,
+    error,
+    clearError,
+    getCharacterByName
+  } = useMarvelService();
 
   const {
     register,
@@ -11,13 +21,31 @@ const CharForm = () => {
     formState: {
       errors
     } } = useForm();
+
   const onSubmit = (data) => {
-    console.log("submitting: ", data);
-    
+    updateChar(data);
   }
 
-  console.log(errors);
+  const onCharLoaded = (char) => {
+    setChar(char);
+    // Show hero's page button & success message
+  }
 
+  const updateChar = (data) => {
+    if (!data.charName) {
+      return;
+    }
+    clearError();
+    getCharacterByName(data.charName)
+      .then(onCharLoaded);
+  }
+
+  // X - TODO: fix rerenders amount per query
+  // TODO: error handling
+  // TODO: integrate form messages into char state (work with id)
+  // console.log(errors);
+
+  console.log('render');
   return (
     <div className="char-form">
       <div className="char-form__title">Or find a character by name:</div>
