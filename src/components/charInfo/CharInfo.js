@@ -8,6 +8,7 @@ import useMarvelService from '../../services/MarvelService';
 import { Link } from 'react-router-dom';
 
 import './charInfo.scss';
+import CharForm from '../charForm/CharForm';
 
 const CharInfo = (props) => {
   const [char, setChar] = useState(null);
@@ -39,11 +40,14 @@ const CharInfo = (props) => {
   const content = !(error || loading || !char) ? <View char={char} /> : null;
 
   return (
-    <div className="char__info">
-      {skeleton}
-      {spinner}
-      {errorMessage}
-      {content}
+    <div className="char__aside">
+      <div className="char__info">
+        {skeleton}
+        {spinner}
+        {errorMessage}
+        {content}
+      </div>
+      <CharForm />
     </div>
   )
 }
