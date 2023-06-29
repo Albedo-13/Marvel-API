@@ -49,10 +49,11 @@ const CharForm = () => {
 
 
   // TODO: нужен один источник правды
+  // TODO: в кофи хаус изменить ссылки на navlink в хедере?
 
   const formValidationErrorsMsg = (Object.keys(errors).length && !error) ? <p>{errors.charName?.message}</p> : null;
   const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p>The character was not found. Check the name and try again</p> : null;
-  // const successSearchMsg = (!formValidationErrorsMsg && !fetchErrorMsg) ? <p>There is! Visit {char} page?</p> : null;
+  const successSearchMsg = (char && !Object.keys(errors).length && !error) ? <p>There is! Visit {char.name} page?</p> : null;
 
   console.log('errors:', formValidationErrorsMsg, fetchErrorMsg);
   
@@ -63,6 +64,7 @@ const CharForm = () => {
         className="char-form__form"
         onSubmit={handleSubmit(onSubmit)}>
         <input
+          // MBTODO: on empty input - char state to null?
           {...register("charName", { required: "This field is required." })}
           className="char-form__input"
           type="text"
@@ -73,7 +75,7 @@ const CharForm = () => {
           <div className="inner">FIND</div>
         </button>
       </form>
-      {/* {successSearchMsg} */}
+      {successSearchMsg}
       {formValidationErrorsMsg}
       {fetchErrorMsg}
     </div>
