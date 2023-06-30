@@ -4,6 +4,7 @@ import './charForm.scss';
 import '../../style/button.scss';
 import useMarvelService from '../../services/MarvelService';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const CharForm = () => {
   const [char, setChar] = useState(null);
@@ -41,21 +42,11 @@ const CharForm = () => {
   }
 
   // X - TODO: fix rerenders amount per query
-  // TODO: error handling
-  // TODO: integrate form messages into char state (work with id)
-  // TODO: Generate hero description page (mb same with prev one)
   
-  console.log(errors, error);
-
-
-  // TODO: нужен один источник правды
-  // TODO: в кофи хаус изменить ссылки на navlink в хедере?
-
-  const formValidationErrorsMsg = (Object.keys(errors).length && !error) ? <p>{errors.charName?.message}</p> : null;
-  const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p>The character was not found. Check the name and try again</p> : null;
-  const successSearchMsg = (char && !Object.keys(errors).length && !error) ? <p>There is! Visit {char.name} page?</p> : null;
-
-  console.log('errors:', formValidationErrorsMsg, fetchErrorMsg);
+  const formValidationErrorsMsg = (Object.keys(errors).length && !error) ? <p className="char-form__error-text">{errors.charName?.message}</p> : null;
+  const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p className="char-form__error-text">The character was not found. Check the name and try again</p> : null;
+  const successSearchMsg = (char && !Object.keys(errors).length && !error) ? <p className="char-form__success-text">There is! Visit {char.name} page?</p> : null;
+  const toPageButton = successSearchMsg ? <ToCharButton charId={char.id} /> : null;
   
   return (
     <div className="char-form">
@@ -75,10 +66,21 @@ const CharForm = () => {
           <div className="inner">FIND</div>
         </button>
       </form>
-      {successSearchMsg}
-      {formValidationErrorsMsg}
-      {fetchErrorMsg}
+      <div className="char-form__redirect">
+        {formValidationErrorsMsg}
+        {fetchErrorMsg}
+        {successSearchMsg}
+        {toPageButton}
+      </div>
     </div>
+  );
+}
+
+const ToCharButton = (props) => {
+  return (
+    <Link to={`characters/${props.charId}`} className="button button__secondary">
+      <div className="inner">TO PAGE</div>
+    </Link>
   );
 }
 
