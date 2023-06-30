@@ -22,7 +22,6 @@ const useMarvelService = () => {
   const getCharacterByName = async (charName) => {
     const res = await request(`${_apiBase}characters?name=${charName}&${_apiKey}`);
     if (!res.data.results.length) {
-      // console.log(`No valid results by fetching ${_apiBase}characters?name=${charName}&${_apiKey}`)
       setError(`No valid results by fetching ${_apiBase}characters?name=${charName}&${_apiKey}`);
       return;
     }

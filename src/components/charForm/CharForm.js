@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 
 const CharForm = () => {
   const [char, setChar] = useState(null);
+  const [newItemLoading, setNewItemLoading] = useState(false);
 
   const {
-    loading,
     error,
     clearError,
     getCharacterByName
@@ -24,12 +24,13 @@ const CharForm = () => {
     } } = useForm();
 
   const onSubmit = (data) => {
+    setNewItemLoading(true);
     updateChar(data);
   }
 
   const onCharLoaded = (char) => {
     setChar(char);
-    // Show hero's page button & success message
+    setNewItemLoading(false);
   }
 
   const updateChar = (data) => {
@@ -41,12 +42,10 @@ const CharForm = () => {
       .then(onCharLoaded);
   }
 
-  // X - TODO: fix rerenders amount per query
-  
   const formValidationErrorsMsg = (Object.keys(errors).length && !error) ? <p className="char-form__error-text">{errors.charName?.message}</p> : null;
   const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p className="char-form__error-text">The character was not found. Check the name and try again</p> : null;
   const successSearchMsg = (char && !Object.keys(errors).length && !error) ? <p className="char-form__success-text">There is! Visit {char.name} page?</p> : null;
-  const toPageButton = successSearchMsg ? <ToCharButton charId={char.id} /> : null;
+  const toCharButton = successSearchMsg ? <ToCharButton charId={char.id} /> : null;
   
   return (
     <div className="char-form">
@@ -55,14 +54,19 @@ const CharForm = () => {
         className="char-form__form"
         onSubmit={handleSubmit(onSubmit)}>
         <input
-          // MBTODO: on empty input - char state to null?
-          {...register("charName", { required: "This field is required." })}
+          {...register("charName", { 
+            required: "This field is required.",
+            onChange: () => {
+              setChar(null);
+            }
+          })}
           className="char-form__input"
           type="text"
-          placeholder='Enter name' />
+          placeholder="Enter name" />
         <button
           type="submit"
-          className="button button__main">
+          className="button button__main"
+          disabled={newItemLoading}>
           <div className="inner">FIND</div>
         </button>
       </form>
@@ -70,7 +74,7 @@ const CharForm = () => {
         {formValidationErrorsMsg}
         {fetchErrorMsg}
         {successSearchMsg}
-        {toPageButton}
+        {toCharButton}
       </div>
     </div>
   );
