@@ -1,5 +1,6 @@
 import { useState } from "react";
 import RandomChar from "../randomChar/RandomChar";
+import CharSearch from "../charSearch/CharSearch";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
@@ -19,6 +20,7 @@ const MainPage = () => {
       <ErrorBoundary>
         <RandomChar />
       </ErrorBoundary>
+      <CharSearch />
       <div className="char__content">
         <CharList onCharSelected={onCharSelected} />
         <ErrorBoundary>
