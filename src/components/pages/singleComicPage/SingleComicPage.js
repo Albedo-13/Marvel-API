@@ -42,6 +42,7 @@ const SingleComicPage = () => {
 
 const View = ({ comic }) => {
   const { title, description, pageCount, thumbnail, language, price } = comic;
+  const inStock = price ? `${price}$` : 'not available';
 
   return (
     <div className="single-comic">
@@ -51,7 +52,7 @@ const View = ({ comic }) => {
         <p className="single-comic__descr">{description}</p>
         <p className="single-comic__descr">{pageCount}</p>
         <p className="single-comic__descr">Language: {language}</p>
-        <div className="single-comic__price">{price}$</div>
+        <div className="single-comic__price">{inStock}</div>
       </div>
       <Link to="/comics" className="single-comic__back">Back to all</Link>
     </div>
