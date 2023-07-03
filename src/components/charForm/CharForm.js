@@ -46,7 +46,7 @@ const CharForm = () => {
   const fetchErrorMsg = (!Object.keys(errors).length && error) ? <p className="char-form__error-text">The character was not found. Check the name and try again</p> : null;
   const successSearchMsg = (char && !Object.keys(errors).length && !error) ? <p className="char-form__success-text">There is! Visit {char.name} page?</p> : null;
   const toCharButton = successSearchMsg ? <ToCharButton charId={char.id} /> : null;
-  
+
   return (
     <div className="char-form">
       <div className="char-form__title">Or find a character by name:</div>
@@ -54,7 +54,7 @@ const CharForm = () => {
         className="char-form__form"
         onSubmit={handleSubmit(onSubmit)}>
         <input
-          {...register("charName", { 
+          {...register("charName", {
             required: "This field is required.",
             onChange: () => {
               setChar(null);
