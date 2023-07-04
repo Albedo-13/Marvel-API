@@ -1,10 +1,11 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import useMarvelService from '../../services/MarvelService';
+import Spinner from '../spinner/Spinner';
 
 import './charSearch.scss';
-import Spinner from '../spinner/Spinner';
 
 const CharSearch = () => {
   const { loading, error, clearError, getCharactersByPartialName } = useMarvelService();
@@ -33,32 +34,22 @@ const CharSearch = () => {
   const onCharactersLoaded = (data) => setData(data);
 
   function renderItems() {
-    console.log(data);
-    return data.map((char) => {
-      return (
-        <Link tabIndex={0} className='char-search-item' to={`characters/${char.id}`}>
-          <div className="char-search-item__wrapper">
-            <img src={char.thumbnail} alt={char.name} className="char-search-item__thumbnail" />
-            <div className="char-search-item__name">{char.name}</div>
-          </div>
-        </Link>
-      );
-    });
+    return (data.map((char, index) => {
+      return index === data.length - 1
+        ? <ViewItem char={char} onBlur={() => setDnone(true)} />
+        : <ViewItem char={char} />;
+    }));
   }
-
-  console.log(dnone);
-  // TODO: Сделать возможность фокуса на найденных героев 
-  // TODO: и закрытие модалки с перехода с последнего героя
 
   return (
     <section className="char-search">
       <div className="container">
-        <form onSubmit={(e) => e.preventDefault()} onFocus={() => setDnone(false)} onBlur={() => setDnone(true)}>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          onFocus={() => setDnone(false)}>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            // onFocus={() => setDnone(false)}
-            // onBlur={}
             name="search"
             type="text"
             autoComplete="off"
@@ -74,6 +65,23 @@ const CharSearch = () => {
       </div>
       {dnone ? null : <div className="char-search__overlay" onClick={() => setDnone(true)}></div>}
     </section>
+  );
+}
+
+const ViewItem = (props) => {
+  const { char } = props;
+  return (
+    <Link
+      to={`characters/${char.id}`}
+      key={char.id}
+      tabIndex={0}
+      className='char-search-item'
+      onBlur={props.onBlur}>
+      <div className="char-search-item__wrapper">
+        <img src={char.thumbnail} alt={char.name} className="char-search-item__thumbnail" />
+        <div className="char-search-item__name">{char.name}</div>
+      </div>
+    </Link>
   );
 }
 
