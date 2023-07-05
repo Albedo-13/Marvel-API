@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import './singleCharLayout.scss';
+import "./singleCharLayout.scss";
 
 const SingleCharLayout = ({ data }) => {
   const { name, description, thumbnail } = data;
@@ -12,9 +12,11 @@ const SingleCharLayout = ({ data }) => {
         <h2 className="single-char__name">{name}</h2>
         <p className="single-char__descr">{description}</p>
       </div>
-      <Link to="/" className="single-char__back">Back to all</Link>
+      <Link to="/" className="single-char__back">
+        Back to all
+      </Link>
     </div>
-  )
-}
+  );
+};
 
 export default SingleCharLayout;

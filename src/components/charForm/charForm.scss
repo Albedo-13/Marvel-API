@@ -1,4 +1,4 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .char {
   &-form {
@@ -44,14 +44,13 @@
       align-items: center;
       margin-top: 15px;
     }
-    
+
     &__error-text {
       color: $main-color;
       font-size: 18px;
       font-weight: 700;
     }
 
-    
     &__success-text {
       color: $success;
       font-size: 18px;

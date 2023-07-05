@@ -5,11 +5,4 @@ import SingleComicLayout from "./singleComicLayout/SingleComicLayout";
 import SingleCharLayout from "./singleCharLayout/SingleCharLayout";
 import SinglePage from "./SinglePage";
 
-export { 
-  MainPage,
-  ComicsPage,
-  Page404,
-  SinglePage,
-  SingleComicLayout,
-  SingleCharLayout,
-};
+export { MainPage, ComicsPage, Page404, SinglePage, SingleComicLayout, SingleCharLayout };

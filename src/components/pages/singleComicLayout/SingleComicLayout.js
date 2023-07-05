@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import './singleComicLayout.scss';
+import "./singleComicLayout.scss";
 
 const SingleComicLayout = ({ data }) => {
   const { title, description, pageCount, thumbnail, language, price } = data;
-  const inStock = price ? `${price}$` : 'not available';
+  const inStock = price ? `${price}$` : "not available";
 
   return (
     <div className="single-comic">
@@ -16,9 +16,11 @@ const SingleComicLayout = ({ data }) => {
         <p className="single-comic__descr">Language: {language}</p>
         <div className="single-comic__price">{inStock}</div>
       </div>
-      <Link to="/comics" className="single-comic__back">Back to all</Link>
+      <Link to="/comics" className="single-comic__back">
+        Back to all
+      </Link>
     </div>
-  )
-}
+  );
+};
 
 export default SingleComicLayout;

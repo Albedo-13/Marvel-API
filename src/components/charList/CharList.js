@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import PropTypes from "prop-types";
 
-import './charList.scss';
-import useMarvelService from '../../services/MarvelService';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Spinner from '../spinner/Spinner';
+import useMarvelService from "../../services/MarvelService";
+import ErrorMessage from "../errorMessage/ErrorMessage";
+import Spinner from "../spinner/Spinner";
+
+import "./charList.scss";
 
 const CharList = (props) => {
   const [chars, setChars] = useState([]);
@@ -26,40 +27,41 @@ const CharList = (props) => {
       ended = true;
     }
 
-    setChars(chars => [...chars, ...newChars]);
+    setChars((chars) => [...chars, ...newChars]);
     setNewItemLoading(() => false);
-    setOffset(offset => offset + 9);
-    setCharEnded(charEnded => ended);
-  }
+    setOffset((offset) => offset + 9);
+    setCharEnded((charEnded) => ended);
+  };
 
   const onRequest = (offset, initial) => {
     initial ? setNewItemLoading(false) : setNewItemLoading(true);
-    getAllCharacters(offset)
-      .then(onCharsLoaded);
-  }
+    getAllCharacters(offset).then(onCharsLoaded);
+  };
 
   const itemRefs = useRef([]);
 
   const onItemFocus = (id) => {
-    itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
-    itemRefs.current[id].classList.add('char__item_selected');
+    itemRefs.current.forEach((item) => item.classList.remove("char__item_selected"));
+    itemRefs.current[id].classList.add("char__item_selected");
     itemRefs.current[id].focus();
-  }
+  };
 
   function renderItems(chars) {
     const items = chars.map((char, i) => {
-      const imgStyle = char.thumbnail.indexOf('image_not_available') > -1 ? { 'objectFit': 'contain' } : { 'objectFit': 'cover' };
+      const imgStyle =
+        char.thumbnail.indexOf("image_not_available") > -1 ? { objectFit: "contain" } : { objectFit: "cover" };
 
       return (
         <CSSTransition key={char.id} timeout={500} classNames="char__item">
           <li
             className="char__item"
             tabIndex="0"
-            ref={el => itemRefs.current[i] = el}
+            ref={(el) => (itemRefs.current[i] = el)}
             onFocus={() => {
               props.onCharSelected(char.id);
               onItemFocus(i);
-            }}>
+            }}
+          >
             <img src={char.thumbnail} style={imgStyle} alt="hero" />
             <div className="char__name">{char.name}</div>
           </li>
@@ -69,9 +71,7 @@ const CharList = (props) => {
 
     return (
       <ul className="char__grid">
-        <TransitionGroup component={null}>
-          {items}
-        </TransitionGroup>
+        <TransitionGroup component={null}>{items}</TransitionGroup>
       </ul>
     );
   }
@@ -88,16 +88,17 @@ const CharList = (props) => {
       <button
         className="button button__main button__long"
         disabled={newItemLoading}
-        style={{ 'display': charEnded ? 'none' : 'block' }}
-        onClick={() => onRequest(offset)}>
+        style={{ display: charEnded ? "none" : "block" }}
+        onClick={() => onRequest(offset)}
+      >
         <div className="inner">load more</div>
       </button>
     </div>
-  )
-}
+  );
+};
 
 CharList.propTypes = {
   onCharSelected: PropTypes.func.isRequired,
-}
+};
 
 export default CharList;
