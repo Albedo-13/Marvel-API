@@ -1,8 +1,8 @@
-import useMarvelService from "../../services/MarvelService";
-import ErrorMessage from "../errorMessage/ErrorMessage";
 import { useState, useEffect } from "react";
-import Spinner from "../spinner/Spinner";
 import { Link } from "react-router-dom";
+
+import useMarvelService from "../../services/MarvelService";
+import { setContentWithLoading } from "../../utils/setContent";
 
 import "./comicsList.scss";
 
@@ -10,7 +10,7 @@ const ComicsList = () => {
   const [comics, setComics] = useState([]);
   const [offset, setOffset] = useState(171);
   const [newComicLoading, setNewComicLoading] = useState(false);
-  const { loading, error, getAllComics } = useMarvelService();
+  const { process, setProcess, getAllComics } = useMarvelService();
 
   useEffect(() => {
     onRequest(offset);
@@ -19,7 +19,9 @@ const ComicsList = () => {
 
   const onRequest = (offset) => {
     setNewComicLoading(true);
-    getAllComics(offset).then(onComicsLoaded);
+    getAllComics(offset)
+      .then(onComicsLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
   const onComicsLoaded = (newComics) => {
@@ -46,15 +48,9 @@ const ComicsList = () => {
     return <ul className="comics__grid">{items}</ul>;
   };
 
-  const items = renderComics(comics);
-  const spinner = loading || newComicLoading ? <Spinner /> : null;
-  const errorMessage = error ? <ErrorMessage /> : null;
-
   return (
     <div className="comics__list">
-      {errorMessage}
-      {spinner}
-      {items}
+      {setContentWithLoading(process, () => renderComics(comics), newComicLoading)}
       <button onClick={() => onRequest(offset)} className="button button__main button__long" disabled={newComicLoading}>
         <div className="inner">load more</div>
       </button>

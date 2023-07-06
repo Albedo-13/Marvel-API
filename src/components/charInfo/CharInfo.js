@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Skeleton from "../skeleton/Skeleton";
-import useMarvelService from "../../services/MarvelService";
 import { Link } from "react-router-dom";
+
+import useMarvelService from "../../services/MarvelService";
+import setContent from "../../utils/setContent";
 
 import "./charInfo.scss";
 import CharForm from "../charForm/CharForm";
@@ -30,29 +28,12 @@ const CharInfo = (props) => {
     clearError();
     getCharacter(charId)
       .then(onCharLoaded)
-      .then(() => setProcess('confirmed'));
+      .then(() => setProcess("confirmed"));
   };
-
-  const setContent = (process, View, data) => {
-    switch (process) {
-      case 'waiting':
-        return <Skeleton />;
-      case 'loading':
-        return <Spinner />;
-      case 'error':
-        return <ErrorMessage />;
-      case 'confirmed':
-        return <View data={data} />;
-      default:
-        throw new Error("Unhandled process error");
-    }
-  }
 
   return (
     <div className="char__aside">
-      <div className="char__info">
-        {setContent(process, View, char)}
-      </div>
+      <div className="char__info">{setContent(process, View, char)}</div>
       <CharForm />
     </div>
   );

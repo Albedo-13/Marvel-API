@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+
+import useMarvelService from "../../services/MarvelService";
 
 import "./charForm.scss";
 import "../../style/button.scss";
-import useMarvelService from "../../services/MarvelService";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 
 const CharForm = () => {
   const [char, setChar] = useState(null);
@@ -23,17 +24,18 @@ const CharForm = () => {
     updateChar(data);
   };
 
-  const onCharLoaded = (char) => {
-    setChar(char);
-    setNewItemLoading(false);
-  };
-
   const updateChar = (data) => {
     if (!data.charName) {
       return;
     }
     clearError();
-    getCharacterByName(data.charName).then(onCharLoaded);
+    getCharacterByName(data.charName)
+      .then(onCharLoaded)
+  };
+
+  const onCharLoaded = (char) => {
+    setChar(char);
+    setNewItemLoading(false);
   };
 
   const formValidationErrorsMsg = Object.keys(errors).length && !error ?
@@ -55,6 +57,7 @@ const CharForm = () => {
           {...register("charName", {
             required: "This field is required.",
             onChange: () => {
+              clearError();
               setChar(null);
             },
           })}
