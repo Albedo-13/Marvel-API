@@ -22,10 +22,7 @@ const App = () => {
               <Route path="/" element={<MainPage />} />
               <Route path="/comics" element={<ComicsPage />} />
               <Route path="/comics/:id" element={<SinglePage Component={SingleComicLayout} dataType="comic" />} />
-              <Route
-                path="/characters/:id"
-                element={<SinglePage Component={SingleCharLayout} dataType="character" />}
-              />
+              <Route path="/characters/:id" element={<SinglePage Component={SingleCharLayout} dataType="character" />} />
               <Route path="*" element={<Page404 />} />
             </Routes>
           </Suspense>
