@@ -11,6 +11,8 @@ const SingleComicLayout = lazy(() => import("../pages/singleComicLayout/SingleCo
 const SingleCharLayout = lazy(() => import("../pages/singleCharLayout/SingleCharLayout"));
 const SinglePage = lazy(() => import("../pages/SinglePage"));
 
+// TODO: disable "load more" buttons in chars and comics on loading
+
 const App = () => {
   return (
     <Router>
