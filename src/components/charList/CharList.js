@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import PropTypes from "prop-types";
 
 import useMarvelService from "../../services/MarvelService";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Spinner from "../spinner/Spinner";
+import { setContentWithLoading } from "../../utils/setContent";
 
 import "./charList.scss";
 
@@ -14,7 +12,7 @@ const CharList = (props) => {
   const [offset, setOffset] = useState(210);
   const [charEnded, setCharEnded] = useState(false);
 
-  const { loading, error, getAllCharacters } = useMarvelService();
+  const { process, setProcess, getAllCharacters } = useMarvelService();
 
   useEffect(() => {
     onRequest(offset, true);
@@ -35,7 +33,9 @@ const CharList = (props) => {
 
   const onRequest = (offset, initial) => {
     initial ? setNewItemLoading(false) : setNewItemLoading(true);
-    getAllCharacters(offset).then(onCharsLoaded);
+    getAllCharacters(offset)
+      .then(onCharsLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
   const itemRefs = useRef([]);
@@ -48,8 +48,7 @@ const CharList = (props) => {
 
   function renderItems(chars) {
     const items = chars.map((char, i) => {
-      const imgStyle =
-        char.thumbnail.indexOf("image_not_available") > -1 ? { objectFit: "contain" } : { objectFit: "cover" };
+      const imgStyle = char.thumbnail.indexOf("image_not_available") > -1 ? { objectFit: "contain" } : { objectFit: "cover" };
 
       return (
         <CSSTransition key={char.id} timeout={500} classNames="char__item">
@@ -76,15 +75,14 @@ const CharList = (props) => {
     );
   }
 
-  const items = renderItems(chars);
-  const spinner = loading && !newItemLoading ? <Spinner /> : null;
-  const errorMessage = error ? <ErrorMessage /> : null;
+  const elements = useMemo(() => {
+    return setContentWithLoading(process, () => renderItems(chars), newItemLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [process]);
 
   return (
     <div className="char__list">
-      {errorMessage}
-      {items}
-      {spinner}
+      {elements}
       <button
         className="button button__main button__long"
         disabled={newItemLoading}
@@ -95,10 +93,6 @@ const CharList = (props) => {
       </button>
     </div>
   );
-};
-
-CharList.propTypes = {
-  onCharSelected: PropTypes.func.isRequired,
 };
 
 export default CharList;
