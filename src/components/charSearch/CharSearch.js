@@ -34,9 +34,9 @@ const CharSearch = () => {
   function renderItems() {
     return data.map((char, index) => {
       return index === data.length - 1 ? (
-        <ViewItem char={char} onBlur={() => setDnone(true)} />
+        <ViewItem key={char.id} char={char} onBlur={() => setDnone(true)} />
       ) : (
-        <ViewItem char={char} />
+        <ViewItem key={char.id} char={char} />
       );
     });
   }
@@ -54,7 +54,7 @@ const CharSearch = () => {
             placeholder="Or find a character by name"
             className="char-search__search-input"
           />
-          {dnone ? null : <div className="char-search-items">{loading ? <Spinner /> : renderItems()}</div>}
+          {dnone ? null : <ul className="char-search-items">{loading ? <Spinner /> : renderItems()}</ul>}
         </form>
         {error ? <div className="char-search__error">ERROR: Invalid symbols. Try to search again</div> : null}
       </div>
@@ -66,12 +66,19 @@ const CharSearch = () => {
 const ViewItem = (props) => {
   const { char } = props;
   return (
-    <Link to={`characters/${char.id}`} key={char.id} tabIndex={0} className="char-search-item" onBlur={props.onBlur}>
-      <div className="char-search-item__wrapper">
-        <img src={char.thumbnail} alt={char.name} className="char-search-item__thumbnail" />
-        <div className="char-search-item__name">{char.name}</div>
-      </div>
-    </Link>
+    <li className="char-search-item">
+      <Link 
+        to={`characters/${char.id}`} 
+        key={char.id} 
+        tabIndex={0} 
+        onBlur={props.onBlur} 
+        className="char-search-item__link">
+        <div className="char-search-item__wrapper">
+          <img src={char.thumbnail} alt={char.name} className="char-search-item__thumbnail" />
+          <div className="char-search-item__name">{char.name}</div>
+        </div>
+      </Link>
+    </li>
   );
 };
 

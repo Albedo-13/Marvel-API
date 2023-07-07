@@ -12,7 +12,6 @@ const SingleCharLayout = lazy(() => import("../pages/singleCharLayout/SingleChar
 const SinglePage = lazy(() => import("../pages/SinglePage"));
 
 const App = () => {
-  // TODO: сделать ul li в search bar и растянуть li и a с помощью block
   return (
     <Router>
       <div className="app">
