@@ -61,7 +61,7 @@ const CharList = (props) => {
               onItemFocus(i);
             }}
           >
-            <img src={char.thumbnail} style={imgStyle} alt="hero" />
+            <img src={char.thumbnail} style={imgStyle} alt={`${char.name} hero`} />
             <div className="char__name">{char.name}</div>
           </li>
         </CSSTransition>
