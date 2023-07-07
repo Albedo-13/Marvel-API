@@ -13,12 +13,12 @@ const ComicsList = () => {
   const { process, setProcess, getAllComics } = useMarvelService();
 
   useEffect(() => {
-    onRequest(offset);
+    onRequest(offset, true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onRequest = (offset) => {
-    setNewComicLoading(true);
+  const onRequest = (offset, initial) => {
+    initial ? setNewComicLoading(false) : setNewComicLoading(true);
     getAllComics(offset)
       .then(onComicsLoaded)
       .then(() => setProcess("confirmed"));
@@ -27,7 +27,7 @@ const ComicsList = () => {
   const onComicsLoaded = (newComics) => {
     setComics((comics) => [...comics, ...newComics]);
     setOffset((offset) => offset + 8);
-    setNewComicLoading(false);
+    setNewComicLoading(() => false);
   };
 
   const renderComics = (comics) => {
@@ -51,7 +51,10 @@ const ComicsList = () => {
   return (
     <div className="comics__list">
       {setContentWithLoading(process, () => renderComics(comics), newComicLoading)}
-      <button onClick={() => onRequest(offset)} className="button button__main button__long" disabled={newComicLoading}>
+      <button 
+        onClick={() => onRequest(offset)} 
+        className="button button__main button__long" 
+        disabled={newComicLoading}>
         <div className="inner">load more</div>
       </button>
     </div>
