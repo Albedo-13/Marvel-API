@@ -10,21 +10,8 @@ Project based on Marvel API service. Interactive application that contains data 
 👉 Live Demo: [Live Demo](https://marvel-api-albedo.netlify.app/)
 
 ## Build with ⚙️
-<a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5" target="_blank" rel="noreferrer">
-  <img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-icon.svg" width="36" height="36" alt="HTML5" />
-</a>
-<a href="https://www.w3.org/TR/CSS/#css" target="_blank" rel="noreferrer">
-  <img src="https://www.vectorlogo.zone/logos/w3_css/w3_css-icon.svg" width="36" height="36" alt="CSS3" />
-</a>
-<a href="https://sass-lang.com/" target="_blank" rel="noreferrer">
-  <img src="https://www.vectorlogo.zone/logos/sass-lang/sass-lang-icon.svg" width="36" height="36" alt="Sass" />
-</a>
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer">
-  <img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript-colored.svg" width="36" height="36" alt="JavaScript" />
-</a>
-<a href="https://reactjs.org/" target="_blank" rel="noreferrer">
-  <img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg" width="36" height="36" alt="React" />
-</a>
+
+[![My Skills](https://skillicons.dev/icons?i=html,css,scss,js,react)](https://skillicons.dev)
 
 ## Screenshots of the Project 📸
 ![image](https://github.com/Albedo-13/Marvel-API/assets/42911311/64552a9e-6a34-452d-8929-64e5dfd57631)
